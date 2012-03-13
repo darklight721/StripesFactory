@@ -32,7 +32,7 @@
 		this.updateStripe = function(index,value) {
 			if (index !== undefined && index >= 0 && index < this.stripes.length)
 			{
-				if (value1 !== undefined)
+				if (value !== undefined)
 				{
 					if (typeof value === "number")
 					{
