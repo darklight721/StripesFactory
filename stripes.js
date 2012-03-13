@@ -29,6 +29,23 @@
 			}
 		};
 		
+		this.updateStripe = function(index,value) {
+			if (index !== undefined && index >= 0 && index < this.stripes.length)
+			{
+				if (value1 !== undefined)
+				{
+					if (typeof value === "number")
+					{
+						this.stripes[index].size = value;
+					}
+					else if (typeof value === "string")
+					{
+						this.stripes[index].color = value;
+					}
+				}
+			}
+		};
+		
 		this.removeStripe = function(index) {
 			if (index === undefined)
 			{
@@ -41,17 +58,82 @@
 			return null;
 		};
 		
+		this.render = function() {
+			var url = null;
+			if (this.orient === 0)
+			{
+				url = this.renderHorz();
+			}
+			else if (this.orient > 0 && this.orient < 90)
+			{
+				url = this.renderAngled();
+			}
+			else if (this.orient === 90)
+			{
+				url = this.renderVert();
+			}
+			else
+			{
+				url = this.renderAngled();
+			}
+			return url;
+		}
+		
+		this.renderVert = function() {
+			var canvasWidth = 0;
+			var canvasHeight = 10;
+			$.each(this.stripes,function(){
+				canvasWidth += this.size;
+			});
+			
+			// Resize canvas
+			c.width = canvasWidth;
+			c.height = canvasHeight;
+
+			var x = 0;
+			
+			$.each(this.stripes,function(){
+				ctx.fillStyle = this.color;
+				ctx.fillRect(x,0,this.size,canvasHeight);
+				x += this.size;
+			});
+			
+			return c.toDataURL();
+		};
+		
+		this.renderHorz = function() {
+			var canvasWidth = 10;
+			var canvasHeight = 0;
+			$.each(this.stripes,function(){
+				canvasHeight += this.size;
+			});
+			
+			// Resize canvas
+			c.width = canvasWidth;
+			c.height = canvasHeight;
+
+			var y = 0;
+			
+			$.each(this.stripes,function(){
+				ctx.fillStyle = this.color;
+				ctx.fillRect(0,y,canvasWidth,this.size);
+				y += this.size;
+			});
+			
+			return c.toDataURL();
+		};
+		
 		this.renderAngled = function() {
-			var that = this;
+			var rad = this.orient * Math.PI / 180;
 			
 			// compute canvas width by getting the width of the rotated stripes parallel to the x axis
 			// same thing for canvas height, parallel to y axis
 			var canvasWidth = 0;
 			var canvasHeight = 0;
 			$.each(this.stripes,function(){
-				var stripeWidth = Math.floor(this.size / Math.sin(that.orient));
+				var stripeWidth = Math.floor(this.size / Math.sin(rad));
 				canvasWidth += stripeWidth;
-				canvasHeight += Math.floor(stripeWidth * Math.tan(that.orient));
+				canvasHeight += Math.floor(stripeWidth * Math.tan(rad));
 			});
 			
 			// resize and clear canvas
@@ -62,7 +144,7 @@
 			canvasWidth *= multiplier;
 			canvasHeight *= multiplier;
 			
-			// draw stripes, it's actually just a series of triangles
+			// draw stripes
 			for (var i = 0; i < multiplier; i++)
 			{
 				for (var j = this.stripes.length-1; j >= 0; j--)
@@ -76,8 +158,8 @@
 					ctx.closePath();
 					ctx.fill();
 					
-					var stripeWidth = Math.floor(this.stripes[j].size / Math.sin(this.orient));
-					var stripeHeight = Math.floor(stripeWidth * Math.tan(this.orient));
+					var stripeWidth = Math.floor(this.stripes[j].size / Math.sin(rad));
+					var stripeHeight = Math.floor(stripeWidth * Math.tan(rad));
 					
 					canvasWidth -= stripeWidth;
 					canvasHeight -= stripeHeight;
@@ -94,11 +176,11 @@
 	
 		var stripes = new StripesFactory();
 		stripes.init();
-		stripes.setOrient(Math.PI/3);
+		stripes.setOrient(45);
 		var stripe = stripes.removeStripe();
 		stripes.addStripe(20,"#4bacc6");
 		stripes.addStripe(stripe.size,stripe.color);
-		$("body").css("background-image","url('" + stripes.renderAngled() + "')");
+		$("body").css("background-image","url('" + stripes.render() + "')");
 	});
 
 })(jQuery);
