@@ -59,27 +59,26 @@
 		};
 		
 		this.render = function() {
-			var url = null;
 			if (this.orient === 0)
 			{
-				url = this.renderHorz();
+				this.render0deg();
 			}
 			else if (this.orient > 0 && this.orient < 90)
 			{
-				url = this.renderAngled();
+				this.render1quad();
 			}
 			else if (this.orient === 90)
 			{
-				url = this.renderVert();
+				this.render90deg();
 			}
-			else
+			else if (this.orient > 90 && this.orient < 180)
 			{
-				url = this.renderAngled();
+				this.render2quad();
 			}
-			return url;
-		}
+			return c.toDataURL();
+		};
 		
-		this.renderVert = function() {
+		this.render90deg = function() {
 			var canvasWidth = 0;
 			var canvasHeight = 10;
 			$.each(this.stripes,function(){
@@ -97,11 +96,9 @@
 				ctx.fillRect(x,0,this.size,canvasHeight);
 				x += this.size;
 			});
-			
-			return c.toDataURL();
 		};
 		
-		this.renderHorz = function() {
+		this.render0deg = function() {
 			var canvasWidth = 10;
 			var canvasHeight = 0;
 			$.each(this.stripes,function(){
@@ -119,11 +116,9 @@
 				ctx.fillRect(0,y,canvasWidth,this.size);
 				y += this.size;
 			});
-			
-			return c.toDataURL();
 		};
 		
-		this.renderAngled = function() {
+		this.render1quad = function() {
 			var rad = this.orient * Math.PI / 180;
 			
 			// compute canvas width by getting the width of the rotated stripes parallel to the x axis
@@ -165,9 +160,54 @@
 					canvasHeight -= stripeHeight;
 				}
 			}
-			
-			return c.toDataURL();
 		};
+		
+		this.render2quad = function() {
+			var rad = (180 - this.orient) * Math.PI / 180;
+			
+			// compute canvas width by getting the width of the rotated stripes parallel to the x axis
+			// same thing for canvas height, parallel to y axis
+			var canvasWidth = 0;
+			var canvasHeight = 0;
+			$.each(this.stripes,function(){
+				var stripeWidth = Math.floor(this.size / Math.sin(rad));
+				canvasWidth += stripeWidth;
+				canvasHeight += Math.floor(stripeWidth * Math.tan(rad));
+			});
+			
+			// resize and clear canvas
+			c.width = canvasWidth;
+			c.height = canvasHeight;
+			
+			var x = canvasWidth;
+			
+			var multiplier = 2;
+			canvasWidth *= multiplier;
+			canvasHeight *= multiplier;
+			
+			// draw stripes
+			for (var i = 0; i < multiplier; i++)
+			{
+				for (var j = 0; j < this.stripes.length; j++)
+				{	
+					ctx.fillStyle = this.stripes[j].color;
+					ctx.beginPath();
+					ctx.moveTo(x,0);
+					ctx.lineTo(x-canvasWidth,0);
+					ctx.lineTo(x,canvasHeight);
+					ctx.lineTo(x,0);
+					ctx.closePath();
+					ctx.fill();
+					
+					var stripeWidth = Math.floor(this.stripes[j].size / Math.sin(rad));
+					var stripeHeight = Math.floor(stripeWidth * Math.tan(rad));
+					
+					canvasWidth -= stripeWidth;
+					canvasHeight -= stripeHeight;
+				}
+			}
+		};
+		
 	};
 	
 	$(document).ready(function(){
@@ -176,7 +216,7 @@
 	
 		var stripes = new StripesFactory();
 		stripes.init();
-		stripes.setOrient(45);
+		stripes.setOrient(90+45);
 		var stripe = stripes.removeStripe();
 		stripes.addStripe(20,"#4bacc6");
 		stripes.addStripe(stripe.size,stripe.color);
