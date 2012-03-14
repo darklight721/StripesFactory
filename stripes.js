@@ -221,6 +221,8 @@
 		stripes.addStripe(20,"#4bacc6");
 		stripes.addStripe(stripe.size,stripe.color);
 		$("body").css("background-image","url('" + stripes.render() + "')");
+		
+		$(".slider").slider();
 	});
 
 })(jQuery);
