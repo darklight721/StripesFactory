@@ -68,7 +68,7 @@ var StripesFactory = function(c,ctx) {
 		}
 		else if (index >= 0 && index < this.stripes.length)
 		{
-			return this.stripes.splice(i,1);
+			return this.stripes.splice(index,1);
 		}
 		return null;
 	};

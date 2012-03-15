@@ -99,6 +99,20 @@
 		
 		// Bind tiles
 		$(".tile").click(selectTile);
+		
+		// Bind delete
+		$(".delete").click(function(){
+			var stripesCount = stripes.getStripes().length;
+			// allow delete if stripes are more than 2
+			if (stripesCount > 2)
+			{
+				var index = $(".selected").data("index");
+				stripes.removeStripe(index);
+				syncColorTiles();
+				$(".tile:first").click();
+				renderBackground();
+			}
+		});
 	}
 	
 	function syncColorTiles()
@@ -123,6 +137,7 @@
 			{
 				var elem = $(".tile")[i];
 				$(elem).removeClass("disabled");
+				$(elem).css("background-color","transparent");
 				$(elem).addClass("plus");
 				$(elem).data("index","+");
 				i++;
@@ -132,6 +147,7 @@
 			{
 				var elem = $(".tile")[i];
 				$(elem).removeClass("plus");
+				$(elem).css("background-color","transparent");
 				$(elem).addClass("disabled");
 				$(elem).data("index",".");
 				i++;
@@ -162,6 +178,8 @@
 				
 				$(".tile").removeClass("selected");
 				$(this).addClass("selected");
+				
+				positionDeleteButton(this);
 			}
 		}
 		else if (index === "+")
@@ -175,6 +193,16 @@
 		{
 			// do nothing
 		}
+	}
+	
+	function positionDeleteButton(anchor)
+	{
+		var pos = $(anchor).position();
+		var width = $(anchor).width()-2;
+		var height = $(".delete").height() / 2-2;
+		
+		$(".delete").css("top",pos.top-height+"px");
+		$(".delete").css("left",pos.left+width+"px");
 	}
 	
 	function rgbToHex(r,g,b)

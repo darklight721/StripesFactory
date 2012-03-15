@@ -84,6 +84,22 @@ body
 	width: 200px;
 }
 
+.delete
+{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	
+	background-image: url('delete.png');
+	cursor: pointer;
+	opacity: 0.7;
+}
+
+.delete:hover
+{
+	opacity: 0.9;
+}
+
 canvas
 {
 	position: absolute;
