@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <head>
 <title>Stripes Factory</title>
-<link rel="stylesheet" href="stripes.css" type="text/css" />
+<link rel="stylesheet" href="css/stripes.css" type="text/css" />
 <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" type="text/css" />
-<script src="jquery-1.7.1.min.js" type="text/javascript"></script>
-<script src="jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-<script src="stripes.js" type="text/javascript"></script>
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+<script src="js/stripesfactory.js" type="text/javascript"></script>
+<script src="js/stripes.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="container">
 	<header>
 	</header>
-	<section>	
-		<div class="controls">
+	<section>
+		<div class="control">
 			<ul>
 				<li>
-					<div class="label">Orientation</div>
-					<div class="slider"></div>
-					<div class="text"><input type="text" maxlength="3" size="3" /></div>
+					<div class="label">&nbsp;</div>
+					<div class="tile selected"></div>
+					<div class="tile"></div>
+					<div class="tile"></div>
+					<div class="tile plus"></div>
+					<div class="tile disabled"></div>
 				</li>
 				<li>
-					<div class="label">Colors R</div>
-					<div class="slider"></div>
-					<div class="text"><input type="text" maxlength="3" size="3" /></div>
+					<div class="label">Color&nbsp;&nbsp;&nbsp;R</div>
+					<div id="sliderR" class="slider"></div>
+					<div class="text"><input id="textR" type="text" maxlength="3" size="3" /></div>
 				</li>
 				<li>
 					<div class="label">G</div>
-					<div class="slider"></div>
-					<div class="text"><input type="text" maxlength="3" size="3" /></div>
+					<div id="sliderG" class="slider"></div>
+					<div class="text"><input id="textG" type="text" maxlength="3" size="3" /></div>
 				</li>
 				<li>
 					<div class="label">B</div>
-					<div class="slider"></div>
-					<div class="text"><input type="text" maxlength="3" size="3" /></div>
+					<div id="sliderB" class="slider"></div>
+					<div class="text"><input id="textB" type="text" maxlength="3" size="3" /></div>
 				</li>
 				<li>
 					<div class="label">Size</div>
-					<div class="slider"></div>
-					<div class="text"><input type="text" maxlength="3" size="3" /></div>
+					<div id="sliderSize" class="slider"></div>
+					<div class="text"><input id="textSize" type="text" maxlength="3" size="3" /></div>
+				</li>
+				<li>
+					<div class="label">Orientation</div>
+					<div id="sliderOrient" class="slider"></div>
+					<div class="text"><input id="textOrient" type="text" maxlength="3" size="3" /></div>
 				</li>
 				
 			</ul>
