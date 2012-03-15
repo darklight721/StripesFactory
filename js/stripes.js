@@ -2,227 +2,203 @@
 
 	var c = null;
 	var ctx = null;
-
-	var StripesFactory = function() {
-		
-		this.orient = 0.0;
-		this.stripes = [ /*{ size : 0, color : "" },{...},...*/ ];
-		
-		this.init = function() {
-			this.orient = 0.0;
-			this.stripes.push({ size : 20, color : "#1F497D" });
-			this.stripes.push({ size : 15, color : "#C6D9F1" });
-		};
-		
-		this.setOrient = function(value) {
-			if (value !== undefined && typeof value === "number")
-			{
-				this.orient = value;
-			}
-		};
-		
-		this.addStripe = function(value1,value2) {
-			if (value1 !== undefined && typeof value1 === "number" &&
-				value2 !== undefined && typeof value2 === "string")
-			{
-				this.stripes.push({ size : value1, color : value2 });
-			}
-		};
-		
-		this.updateStripe = function(index,value) {
-			if (index !== undefined && index >= 0 && index < this.stripes.length)
-			{
-				if (value !== undefined)
-				{
-					if (typeof value === "number")
-					{
-						this.stripes[index].size = value;
-					}
-					else if (typeof value === "string")
-					{
-						this.stripes[index].color = value;
-					}
-				}
-			}
-		};
-		
-		this.removeStripe = function(index) {
-			if (index === undefined)
-			{
-				return this.stripes.pop();
-			}
-			else if (index >= 0 && index < this.stripes.length)
-			{
-				return this.stripes.splice(i,1);
-			}
-			return null;
-		};
-		
-		this.render = function() {
-			if (this.orient === 0)
-			{
-				this.render0deg();
-			}
-			else if (this.orient > 0 && this.orient < 90)
-			{
-				this.render1quad();
-			}
-			else if (this.orient === 90)
-			{
-				this.render90deg();
-			}
-			else if (this.orient > 90 && this.orient < 180)
-			{
-				this.render2quad();
-			}
-			return c.toDataURL();
-		};
-		
-		this.render90deg = function() {
-			var canvasWidth = 0;
-			var canvasHeight = 10;
-			$.each(this.stripes,function(){
-				canvasWidth += this.size;
-			});
-			
-			// Resize canvas
-			c.width = canvasWidth;
-			c.height = canvasHeight;
-
-			var x = 0;
-			
-			$.each(this.stripes,function(){
-				ctx.fillStyle = this.color;
-				ctx.fillRect(x,0,this.size,canvasHeight);
-				x += this.size;
-			});
-		};
-		
-		this.render0deg = function() {
-			var canvasWidth = 10;
-			var canvasHeight = 0;
-			$.each(this.stripes,function(){
-				canvasHeight += this.size;
-			});
-			
-			// Resize canvas
-			c.width = canvasWidth;
-			c.height = canvasHeight;
-
-			var y = 0;
-			
-			$.each(this.stripes,function(){
-				ctx.fillStyle = this.color;
-				ctx.fillRect(0,y,canvasWidth,this.size);
-				y += this.size;
-			});
-		};
-		
-		this.render1quad = function() {
-			var rad = this.orient * Math.PI / 180;
-			
-			// compute canvas width by getting the width of the rotated stripes parallel to the x axis
-			// same thing for canvas height, parallel to y axis
-			var canvasWidth = 0;
-			var canvasHeight = 0;
-			$.each(this.stripes,function(){
-				var stripeWidth = Math.floor(this.size / Math.sin(rad));
-				canvasWidth += stripeWidth;
-				canvasHeight += Math.floor(stripeWidth * Math.tan(rad));
-			});
-			
-			// resize and clear canvas
-			c.width = canvasWidth;
-			c.height = canvasHeight;
-			
-			var multiplier = 2;
-			canvasWidth *= multiplier;
-			canvasHeight *= multiplier;
-			
-			// draw stripes
-			for (var i = 0; i < multiplier; i++)
-			{
-				for (var j = this.stripes.length-1; j >= 0; j--)
-				{	
-					ctx.fillStyle = this.stripes[j].color;
-					ctx.beginPath();
-					ctx.moveTo(0,0);
-					ctx.lineTo(canvasWidth,0);
-					ctx.lineTo(0,canvasHeight);
-					ctx.lineTo(0,0);
-					ctx.closePath();
-					ctx.fill();
-					
-					var stripeWidth = Math.floor(this.stripes[j].size / Math.sin(rad));
-					var stripeHeight = Math.floor(stripeWidth * Math.tan(rad));
-					
-					canvasWidth -= stripeWidth;
-					canvasHeight -= stripeHeight;
-				}
-			}
-		};
-		
-		this.render2quad = function() {
-			var rad = (180 - this.orient) * Math.PI / 180;
-			
-			// compute canvas width by getting the width of the rotated stripes parallel to the x axis
-			// same thing for canvas height, parallel to y axis
-			var canvasWidth = 0;
-			var canvasHeight = 0;
-			$.each(this.stripes,function(){
-				var stripeWidth = Math.floor(this.size / Math.sin(rad));
-				canvasWidth += stripeWidth;
-				canvasHeight += Math.floor(stripeWidth * Math.tan(rad));
-			});
-			
-			// resize and clear canvas
-			c.width = canvasWidth;
-			c.height = canvasHeight;
-			
-			var x = canvasWidth;
-			
-			var multiplier = 2;
-			canvasWidth *= multiplier;
-			canvasHeight *= multiplier;
-			
-			// draw stripes
-			for (var i = 0; i < multiplier; i++)
-			{
-				for (var j = 0; j < this.stripes.length; j++)
-				{	
-					ctx.fillStyle = this.stripes[j].color;
-					ctx.beginPath();
-					ctx.moveTo(x,0);
-					ctx.lineTo(x-canvasWidth,0);
-					ctx.lineTo(x,canvasHeight);
-					ctx.lineTo(x,0);
-					ctx.closePath();
-					ctx.fill();
-					
-					var stripeWidth = Math.floor(this.stripes[j].size / Math.sin(rad));
-					var stripeHeight = Math.floor(stripeWidth * Math.tan(rad));
-					
-					canvasWidth -= stripeWidth;
-					canvasHeight -= stripeHeight;
-				}
-			}
-		};
-		
-	};
+	var stripes = null;
+	var eventFromText = false; // flag when text input is changed./ used also to force update model
 	
 	$(document).ready(function(){
 		c = $("canvas")[0];
 		ctx = c.getContext("2d");
 	
-		var stripes = new StripesFactory();
+		stripes = new StripesFactory(c,ctx);
 		stripes.init();
 		stripes.setOrient(90+45);
 		var stripe = stripes.removeStripe();
 		stripes.addStripe(20,"#4bacc6");
 		stripes.addStripe(stripe.size,stripe.color);
-		$("body").css("background-image","url('" + stripes.render() + "')");
 		
-		$(".slider").slider();
+		initControls();
+		bindControlsToModel();
+		syncColorTiles();
+		
+		$(".tile:first").click();
+		
+		renderBackground();
 	});
+	
+	function renderBackground()
+	{
+		$("body").css("background-image","url('" + stripes.render() + "')");
+	}
+	
+	function initControls()
+	{
+		$(".slider").slider();
+		
+		// initialize rgb sliders
+		$("#sliderR,#sliderG,#sliderB").slider("option","max",255);
+		
+		// initialize size slider
+		$("#sliderSize").slider("option","min",1);
+		$("#sliderSize").slider("option","max",50);
+		
+		// initialize orient slider
+		$("#sliderOrient").slider("option","max",170);
+		
+		$("#sliderR,#textR").data("id","R");
+		$("#sliderG,#textG").data("id","G");
+		$("#sliderB,#textB").data("id","B");
+		$("#sliderSize,#textSize").data("id","Size");
+		$("#sliderOrient,#textOrient").data("id","Orient");
+	}
+	
+	function bindControlsToModel()
+	{	
+		// Bind sliders
+		$(".slider").bind("slidechange",function(event,ui){
+			
+			// only update the model when not set programmatically or when text input is changed
+			if (event.originalEvent !== undefined || eventFromText)
+			{
+				eventFromText = false;
+				
+				var r = $("#sliderR").slider("option","value");
+				var g = $("#sliderG").slider("option","value");
+				var b = $("#sliderB").slider("option","value");
+				var color = rgbToHex(r,g,b);
+				var size = $("#sliderSize").slider("option","value");
+				var orient = $("#sliderOrient").slider("option","value");
+				
+				// get index
+				var index = 0;
+				$(".tile").each(function(){
+					if ($(this).hasClass("selected"))
+					{
+						index = $(this).data("index");
+						return false;
+					}
+				});
+				
+				// update model
+				stripes.updateStripe(index,color);
+				stripes.updateStripe(index,size);
+				stripes.setOrient(orient);
+				
+				syncColorTiles();
+				// update background
+				renderBackground();
+			}
+			
+			$("#text"+$(this).data("id")).val(ui.value);
+		});
+		
+		// Bind text inputs
+		$(".text input").bind("change",function(){
+			eventFromText = true;
+			$("#slider"+$(this).data("id")).slider("option","value",parseInt($(this).val()));
+		});
+		
+		// Bind tiles
+		$(".tile").click(selectTile);
+	}
+	
+	function syncColorTiles()
+	{
+		var colorStripes = stripes.getStripes();
+		
+		var tileCount = $(".tile").length;
+		if (colorStripes.length <= tileCount)
+		{
+			var i;
+			for (i = 0; i < colorStripes.length; i++)
+			{
+				var color = colorStripes[i].color;
+				
+				var elem = $(".tile")[i];
+				$(elem).removeClass("plus disabled");
+				$(elem).css("background-color",color);
+				$(elem).data("index",i);
+			}
+			
+			if (i < tileCount)
+			{
+				var elem = $(".tile")[i];
+				$(elem).removeClass("disabled");
+				$(elem).addClass("plus");
+				$(elem).data("index","+");
+				i++;
+			}
+			
+			while (i < tileCount)
+			{
+				var elem = $(".tile")[i];
+				$(elem).removeClass("plus");
+				$(elem).addClass("disabled");
+				$(elem).data("index",".");
+				i++;
+			}
+		}
+	}
+	
+	function selectTile()
+	{
+		var index = $(this).data("index");
+		
+		if (typeof index === "number")
+		{
+			var stripe = stripes.getStripes(index);
+			if (stripe !== null)
+			{
+				var color = stripe.color;
+				var r = parseInt(color.substr(1,2),16);
+				var g = parseInt(color.substr(3,2),16);
+				var b = parseInt(color.substr(5),16);
+				
+				$("#sliderR").slider("option","value",r);
+				$("#sliderG").slider("option","value",g);
+				$("#sliderB").slider("option","value",b);
+				
+				$("#sliderSize").slider("option","value",stripe.size);
+				$("#sliderOrient").slider("option","value",stripes.getOrient());
+				
+				$(".tile").removeClass("selected");
+				$(this).addClass("selected");
+			}
+		}
+		else if (index === "+")
+		{
+			stripes.addStripe();
+			syncColorTiles();
+			$(this).click();
+			renderBackground();
+		}
+		else
+		{
+			// do nothing
+		}
+	}
+	
+	function rgbToHex(r,g,b)
+	{
+		var hexR = hexTo2Digits(r);
+		var hexG = hexTo2Digits(g);
+		var hexB = hexTo2Digits(b);
+		
+		var hex = "#" + hexR + hexG + hexB;
+		return hex;
+	}
+	
+	function hexTo2Digits(str)
+	{
+		if (typeof str === "string")
+		{
+			str = parseInt(str);
+		}
+		str = str.toString(16);
+		if (str.length === 1)
+		{
+			str = "0" + str;
+		}
+		return str;
+	}
 
 })(jQuery);
