@@ -69,14 +69,7 @@
 				var orient = $("#sliderOrient").slider("option","value");
 				
 				// get index
-				var index = 0;
-				$(".tile").each(function(){
-					if ($(this).hasClass("selected"))
-					{
-						index = $(this).data("index");
-						return false;
-					}
-				});
+				var index = $(".selected").data("index");
 				
 				// update model
 				stripes.updateStripe(index,color);
