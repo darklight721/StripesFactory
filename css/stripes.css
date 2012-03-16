@@ -116,7 +116,7 @@ body
 
 .panel div
 {
-	display: inline-blocks;
+	display: inline-block;
 	float:left;
 }
 
