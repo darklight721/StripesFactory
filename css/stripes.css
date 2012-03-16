@@ -76,6 +76,7 @@ body
 .label
 {
 	width: 150px;
+	color: gray;
 	text-align: right;
 }
 
@@ -95,9 +96,28 @@ body
 	opacity: 0.7;
 }
 
+.text input
+{
+	border: none;
+	background-color: transparent;
+	box-shadow: 0px 0px 5px 5px rgba(128,128,128,0.1) inset;
+	border-radius: 5px;
+	
+	font-family: verdana;
+	font-size: 14px;
+	text-align: center;
+	color: gray;
+}
+
 .delete:hover
 {
 	opacity: 0.9;
+}
+
+.panel div
+{
+	display: inline-blocks;
+	float:left;
 }
 
 canvas
