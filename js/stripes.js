@@ -27,7 +27,9 @@
 	
 	function renderBackground()
 	{
-		$("body").css("background-image","url('" + stripes.render() + "')");
+		var url = stripes.render();
+		$("body").css("background-image","url('" + url + "')");
+		$(".button").css("background-image","url('" + url + "')");
 	}
 	
 	function initControls()
@@ -49,6 +51,10 @@
 		$("#sliderB,#textB").data("id","B");
 		$("#sliderSize,#textSize").data("id","Size");
 		$("#sliderOrient,#textOrient").data("id","Orient");
+		
+		// position controls
+		$(window).resize(positionControls);
+		positionControls();
 	}
 	
 	function bindControlsToModel()
@@ -105,6 +111,10 @@
 				$(".tile:first").click();
 				renderBackground();
 			}
+		});
+		
+		$(".button").click(function(){
+			window.open(stripes.render(),"_blank");
 		});
 	}
 	
@@ -186,6 +196,15 @@
 		{
 			// do nothing
 		}
+	}
+	
+	function positionControls()
+	{
+		var sectionHeight = $("section").innerHeight();
+		//var sectionWidth = $("section").innerWidth();
+		
+		var sectionTop = window.innerHeight/2 - sectionHeight/2;
+		$("section").css("top",sectionTop + "px");
 	}
 	
 	function positionDeleteButton(anchor)
