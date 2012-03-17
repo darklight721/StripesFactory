@@ -4,7 +4,8 @@ body
 	height: 100%;
 	margin: 0;
 	
-	font-family:verdana;
+	font-family: arial;
+	font-size: 14px;
 }
 
 #container section
@@ -12,8 +13,10 @@ body
 	position: absolute;
 	top:25%; /*temporary*/
 	width: 100%;
+	padding-top: 15px;
 	padding-bottom: 25px;
 	
+	background-color: white;
 	background-image: -webkit-linear-gradient(90deg, #eee, #fff, #eee);
 	background-image: -moz-linear-gradient(90deg, #eee, #fff, #eee);
 	background-image: -o-linear-gradient(90deg, #eee, #fff, #eee);
@@ -24,6 +27,8 @@ body
 .control ul
 {
 	list-style-type: none;
+	padding:0px;
+	margin:0px;
 }
 
 .control ul li
@@ -75,13 +80,14 @@ body
 
 .label
 {
-	width: 150px;
+	width: 70px;
 	color: gray;
 	text-align: right;
 }
 
 .slider
 {
+	margin-top: 3px;
 	width: 200px;
 }
 
@@ -114,6 +120,11 @@ body
 	opacity: 0.9;
 }
 
+.panel
+{
+	margin:auto;
+}
+
 .panel div
 {
 	display: inline-block;
@@ -122,12 +133,10 @@ body
 
 .download
 {
-	padding-top: 20px;
 	padding-left: 30px;
 	
 	width: 300px;
 	
-	font-family: arial;
 	font-size: 10px;
 	color: gray;
 }
@@ -147,7 +156,7 @@ body
 	cursor: pointer;
 	
 	color: white;
-	font-family: arial;
+	font-size: 12px;
 	font-weight: bold;
 	text-align: center;
 	text-shadow: 1px 1px rgba(128,128,128,0.5);

@@ -199,12 +199,18 @@
 	}
 	
 	function positionControls()
-	{
-		var sectionHeight = $("section").innerHeight();
-		//var sectionWidth = $("section").innerWidth();
+	{	
+		var panelRealWidth = $(".control").innerWidth() + $(".download").innerWidth();
+		$(".panel").css("width",panelRealWidth + "px");
 		
+		var sectionHeight = $("section").innerHeight();
 		var sectionTop = window.innerHeight/2 - sectionHeight/2;
 		$("section").css("top",sectionTop + "px");
+		$("section").css("min-width",panelRealWidth+"px");
+		
+		
+		
+		positionDeleteButton($(".selected")[0]);
 	}
 	
 	function positionDeleteButton(anchor)
