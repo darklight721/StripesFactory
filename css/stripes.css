@@ -122,8 +122,19 @@ body
 
 .download
 {
-	padding-top: 30px;
+	padding-top: 20px;
 	padding-left: 30px;
+	
+	width: 300px;
+	
+	font-family: arial;
+	font-size: 10px;
+	color: gray;
+}
+
+.download div
+{
+	margin-top: 10px;
 }
 
 .button
@@ -140,6 +151,12 @@ body
 	font-weight: bold;
 	text-align: center;
 	text-shadow: 1px 1px rgba(128,128,128,0.5);
+}
+
+.code
+{
+	font-family: courier;
+	background-color: rgba(128,128,128,0.1);
 }
 
 .button:hover
