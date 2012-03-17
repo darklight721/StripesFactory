@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+<title>Stripes Factory</title>
+<link rel="stylesheet" href="css/stripes.css" type="text/css" />
+<link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.18.custom.css" type="text/css" />
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+<script src="js/stripesfactory.js" type="text/javascript"></script>
+<script src="js/stripes.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+	<header>
+		<img src="title.png" alt="Stripes Factory" width="295px" height="43px" />
+	</header>
+	<section>
+	<div class="panel">
+		<div class="control">
+			<ul>
+				<li>
+					<div class="label">&nbsp;</div>
+					<div class="tile selected"></div>
+					<div class="tile"></div>
+					<div class="tile"></div>
+					<div class="tile plus"></div>
+					<div class="tile disabled"></div>
+					<div class="delete"></div>
+				</li>
+				<li>
+					<div class="label">Color&nbsp;&nbsp;&nbsp;R</div>
+					<div class="text"><input id="textR" type="text" maxlength="3" size="3" /></div>
+					<div id="sliderR" class="slider"></div>
+				</li>
+				<li>
+					<div class="label">G</div>
+					<div class="text"><input id="textG" type="text" maxlength="3" size="3" /></div>
+					<div id="sliderG" class="slider"></div>
+				</li>
+				<li>
+					<div class="label">B</div>
+					<div class="text"><input id="textB" type="text" maxlength="3" size="3" /></div>
+					<div id="sliderB" class="slider"></div>
+				</li>
+				<li>
+					<div class="label">Size</div>
+					<div class="text"><input id="textSize" type="text" maxlength="3" size="3" /></div>
+					<div id="sliderSize" class="slider"></div>
+				</li>
+				<li>
+					<div class="label">Orientation</div>
+					<div class="text"><input id="textOrient" type="text" maxlength="3" size="3" /></div>
+					<div id="sliderOrient" class="slider"></div>
+				</li>
+			</ul>
+		</div>
+		<div class="download">
+			<div class="button"><img src="css\download.png" width="100px" height="100px"><br/>Download</div>
+			<div>To use this in your webpage, edit the css and add this code to the element you want to have a stripe background:<br/><span class="code">background-image: url('<em>downloadedstripe.png</em>');</span></div>
+			<div>You can also use this as your desktop background. Just make sure the 'tile' option is selected in your desktop settings.</div>
+		</div>
+	</div>
+	</section>
+	<footer>
+	</footer>
+</div>
+<canvas></canvas>
+</body>
+</html>
