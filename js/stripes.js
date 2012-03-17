@@ -208,9 +208,12 @@
 		$("section").css("top",sectionTop + "px");
 		$("section").css("min-width",panelRealWidth+"px");
 		
-		
-		
 		positionDeleteButton($(".selected")[0]);
+		
+		// position title
+		var headerHeight = $("header").innerHeight();
+		var headerTop = sectionTop - headerHeight;
+		$("header").css("top",headerTop + "px");
 	}
 	
 	function positionDeleteButton(anchor)

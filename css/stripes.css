@@ -173,6 +173,19 @@ body
 	box-shadow: 0px 0px 5px 5px rgba(128,128,128,0.5);
 }
 
+header
+{
+	position: absolute;
+	width: 100%;
+	
+	color: transparent;
+	font-family: Helvetica;
+	font-size: 24px;
+	font-weight: bold;
+	text-shadow: -1px -1px rgba(128,128,128,0.5);
+	text-align: center;
+}
+
 canvas
 {
 	position: absolute;
