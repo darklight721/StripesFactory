@@ -1,0 +1,16 @@
+<form>
+	<ul>
+		<li ng-repeat="stripe in stripes"><div ng-click="select($index)"></div></li>
+		<li>+</li>
+	</ul>
+	<input type="text" ng-model="stripe.color.r" ng-change="updateColor(false)">
+	<input type="text" ng-model="stripe.color.g" ng-change="updateColor(false)">
+	<input type="text" ng-model="stripe.color.b" ng-change="updateColor(false)">
+	<input type="text" ng-model="stripe.color.hex" ng-change="updateColor(true)">
+	<input type="text" ng-model="stripe.size" ng-change="updateSize()">
+
+	<input type="text" ng-model="orient" ng-change="updateOrient()">
+
+	<button>Download</button>
+
+</form>
