@@ -16,6 +16,9 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
   };
 
   $scope.updateColor = function(isHex) {
+    if (isHex) {
+
+    }
 
     Stripes.updateStripe($scope.currentStripe, {
       color: $scope.color.hex
@@ -30,6 +33,15 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
 
   $scope.updateOrient = function() {
     Stripes.setOrient($scope.orient);
+  }
+
+  function hexColorToRGB(hex) {
+    var color = {
+      r: 0, g: 0, b: 0
+    };
+
+
+    return color;
   }
   
 }]);
