@@ -5,7 +5,8 @@ StripesFactoryv2App.factory('Stripes', function() {
   var cnv = $('canvas#cnv')[0] || $('<canvas id="cnv"></canvas>').appendTo('body')[0],
   	  ctx = cnv.getContext('2d'),
   	  orient = 0.0,
-  	  stripes = [];
+  	  stripes = [],
+      previewEl = null;
 
   function degToRad(deg) {
   	return deg * Math.PI / 180;
@@ -25,19 +26,19 @@ StripesFactoryv2App.factory('Stripes', function() {
   	}
 
   	if (orient === 0) {
-  		$.each(stripes, function(){
-  			size.width += this.size;
-  		});
+    $.each(stripes, function(){
+        size.height += this.size;
+      });
 
-  		size.height = 10;
-  	}
-  	else if (orient === 90) {
-  		$.each(stripes, function(){
-  			size.height += this.size;
-  		});
+      size.width = 10;
+    }
+    else if (orient === 90) {
+      $.each(stripes, function(){
+        size.width += this.size;
+      });
 
-  		size.width = 10;
-  	}
+      size.height = 10;
+    }
   	else {
   		var rad = degToRad(this.orient);
 
@@ -58,13 +59,13 @@ StripesFactoryv2App.factory('Stripes', function() {
 
   function drawStripes() {
     if (orient === 0) {
-      drawStripesAsHorzRect();
+      drawStripesAsVertRect();
     }
     else if (orient > 0 && orient < 90) {
       drawStripesAsLTriangle();
     }
     else if (orient === 90) {
-      drawStripesAsVertRect();
+      drawStripesAsHorzRect();
     }
     else if (orient > 90 && orient < 180) {
       drawStripesAsRTriangle();
@@ -149,6 +150,9 @@ StripesFactoryv2App.factory('Stripes', function() {
 
   // Public API here
   return {
+    setPreviewEl: function(selector) {
+      previewEl = $(selector);
+    },
     getOrient: function() {
     	return orient;
     },
@@ -156,7 +160,7 @@ StripesFactoryv2App.factory('Stripes', function() {
     	value = value || 45.0;
     	orient = value;
     },
-    addStripe: function(size, color) {
+    addStripe: function(color, size) {
     	size = size || 20;
     	color = color || '#1F497D';
     	stripes.push({
@@ -165,17 +169,16 @@ StripesFactoryv2App.factory('Stripes', function() {
     	});
     },
     updateStripe: function(index, props) {
-    	if (index >= 0 && index < stripes.length && props) {
-    		if ('size' in props) {
-    			stripes[index].size = props['size'];
-    		}
-    		else if ('color' in props) {
-    			stripes[index].color = props['color'];
-    		}
-    	}
+    	if (stripes[index] && props) {
+        for (var prop in stripes[index]) {
+          if (prop in props) {
+            stripes[index][prop] = props[prop];
+          }
+        }
+      }
     },
     removeStripe: function(index) {
-    	if (index >= 0 && index < stripes.length) {
+    	if (stripes[index]) {
     		stripes.splice(index, 1);
     	}
     },
@@ -184,6 +187,9 @@ StripesFactoryv2App.factory('Stripes', function() {
         computeCanvasSize()
       );
       drawStripes();
+      if (previewEl) {
+        previewEl.css('background-image', 'url('+ cnv.toDataURL() +')');
+      }
       return cnv.toDataURL();
     }
   };

@@ -1,16 +1,35 @@
-<form>
+<section>
 	<ul>
-		<li ng-repeat="stripe in stripes"><div ng-click="select($index)"></div></li>
-		<li>+</li>
+		<li class="strip" ng-repeat="stripe in stripes" background-color="stripe.color.hex">
+			<div class="control">
+				<div class="ctrl-btn swap">
+					<button title="Swap Left" ng-show="showSwap(true,$index)" ng-click="swap($index,$index-1)"><span class="icon">&#x24;</span></button>
+					<button title="Swap Right" ng-show="showSwap(false,$index)" ng-click="swap($index,$index+1)"><span class="icon">&#x22;</span></button>
+				</div>
+				<div class="ctrl-btn remove">
+					<button title="Remove" ng-click="remove($index)"><span class="icon">&#x23;</span></button>
+				</div>
+				<div class="ctrl-group" title="Hex Color">
+					<input class="single" type="text" ng-model="stripe.color.hex" ng-change="updateHex($index)" maxlength="7">
+				</div>
+				<div class="ctrl-group" title="RGB Color">
+					<div>
+						<button ng-click="updateRGB($index, {key: 'r', inc: -1})">-</button><input type="text" ng-model="stripe.color.r" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'r', inc: 1})">+</button>
+					</div>
+					<div>
+						<button ng-click="updateRGB($index, {key: 'g', inc: -1})">-</button><input type="text" ng-model="stripe.color.g" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'g', inc: 1})">+</button>
+					</div>
+					<div>
+						<button ng-click="updateRGB($index, {key: 'b', inc: -1})">-</button><input type="text" ng-model="stripe.color.b" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'b', inc: 1})">+</button>
+					</div>
+				</div>
+				<div class="ctrl-group" title="Size">
+					<button ng-click="updateSize($index, {inc: -1})">-</button><input type="text" maxlength="3" ng-model="stripe.size" ng-change="updateSize($index)"><button ng-click="updateSize($index, {inc: 1})">+</button>
+				</div>
+			</div>
+		</li>
+		<li class="strip-new">
+			<button class="btn-new" ng-click="new()"><span class="icon">&#x25;</span></button>
+		</li>
 	</ul>
-	<input type="text" ng-model="stripe.color.r" ng-change="updateColor(false)">
-	<input type="text" ng-model="stripe.color.g" ng-change="updateColor(false)">
-	<input type="text" ng-model="stripe.color.b" ng-change="updateColor(false)">
-	<input type="text" ng-model="stripe.color.hex" ng-change="updateColor(true)">
-	<input type="text" ng-model="stripe.size" ng-change="updateSize()">
-
-	<input type="text" ng-model="orient" ng-change="updateOrient()">
-
-	<button>Download</button>
-
-</form>
+</section>

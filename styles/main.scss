@@ -1,9 +1,27 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot');
+	src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('fonts/icomoon.svg#icomoon') format('svg'),
+		url('fonts/icomoon.woff') format('woff'),
+		url('fonts/icomoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 @mixin bg-linear-gradient($colors...) {
 	background-image: -webkit-linear-gradient(top, $colors);
 	background-image:    -moz-linear-gradient(top, $colors);
 	background-image:     -ms-linear-gradient(top, $colors);
 	background-image:      -o-linear-gradient(top, $colors);
 	background-image:         linear-gradient(to bottom, $colors);
+}
+
+@mixin transform-rotate($deg) {
+	-webkit-transform: rotate($deg);
+	   -moz-transform: rotate($deg);
+	    -ms-transform: rotate($deg);
+	     -o-transform: rotate($deg);
 }
 
 html, body {
@@ -15,6 +33,15 @@ html, body {
 
 canvas {
 	display: none;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+
+	li {
+		list-style-type: none;
+	}
 }
 
 $control-height: 240px;
@@ -43,6 +70,7 @@ $control-height: 240px;
 		position: absolute;
 		top: 30%;
 		left: 50%;
+		z-index: 1;
 
 		h1 {
 			margin: 0;
@@ -64,16 +92,148 @@ $control-height: 240px;
 	height: $control-height;
 	overflow: hidden;
 
-	background-image: url(../images/bg.png);
+	@include bg-linear-gradient(rgba(#000, 0.2), rgba(#000, 0));
 
-	&:after {
+	&:before {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
 		content: '';
-
-		@include bg-linear-gradient(rgba(#000, 0.2), rgba(#000, 0));
+		z-index: -1;
+		background-image: url(../images/bg.png);
 	}
+
+	section ul li {
+		display: inline-block;
+		margin: 20px 0 0 20px;
+	}
+}
+
+.strip {
+	position: relative;
+	width: 200px;
+	height: 200px;
+	border-radius: 2px;
+	box-shadow: 1px 1px 3px 1px rgba(#000, 0.2);
+	background-color: #9CC5C9;
+	overflow: hidden;
+
+	&:after {
+		position: absolute;
+		top: -50%;
+		left: -50%;
+		width: 100%;
+		height: 200%;
+		content: '';
+
+		@include transform-rotate(30deg);
+		@include bg-linear-gradient(rgba(#fff, 0.2), rgba(#fff, 0));
+	}
+
+	.control {
+		position: relative;
+		padding: 15px 10px;
+		z-index: 1;
+		text-align: center;
+	}
+}
+
+.strip-new {
+	position: relative;
+	vertical-align: top;
+}
+
+input, button {
+	display: inline-block;
+	margin: 0;
+	padding: 5px;
+	border: none;
+	outline: none;
+	background-color: transparent;
+
+	font-family: 'Arbutus Slab', serif;
+	text-align: center;
+}
+
+.ctrl-group {
+	display: inline-block;
+	margin-bottom: 5px;
+	border: solid 5px rgba(#fff, 0.2);
+	border-radius: 3px;
+	box-shadow: 0 0 5px 1px rgba(#000, 0.2);
+	background-color: transparent;
+
+	input[type=text] {
+		width: 50px;
+		color: rgba(#000, 0.7);
+		text-transform: uppercase;
+		@include bg-linear-gradient(rgba(#fff,0.6), rgba(#fff, 0.4));
+
+		&.single {
+			width: 90px;
+		}
+
+		&:focus {
+			@include bg-linear-gradient(rgba(#fff,0.6), rgba(#fff,0.6));
+		}
+	}
+
+	button {
+		width: 20px;
+		color: rgba(#fff, 0.7);
+		cursor: pointer;
+		@include bg-linear-gradient(rgba(#000, 0.1), rgba(#000, 0.3));
+
+		&:hover {
+			@include bg-linear-gradient(rgba(#000, 0.1), rgba(#000, 0.1));
+		}
+
+		&:active {
+			@include bg-linear-gradient(rgba(#000, 0.3), rgba(#000, 0.3));
+		}
+	}
+}
+
+.control {
+	position: relative;
+}
+
+.ctrl-btn {
+	position: absolute;
+	top: 5px;
+	padding: 0;
+	margin: 0;
+
+	button {
+		display: inline-block;
+		padding: 0;
+		opacity: 0.5;
+		cursor: pointer;
+		color: #fff;
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	&.swap {
+		left: 5px;
+	}
+
+	&.remove {
+		right: 5px;
+
+		button {
+			color: #c33;
+		}
+	}
+}
+
+.icon {
+	font-family: 'icomoon';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
 }
