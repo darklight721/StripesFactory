@@ -17,6 +17,7 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
       Stripes.addStripe(this.color.hex, this.size);
     });
     Stripes.setOrient($scope.orient);
+    Stripes.render();
   })();
 
   $scope.updateHex = function(index) {
@@ -86,6 +87,10 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
     Stripes.render();
   };
 
+  $scope.showNew = function() {
+    return $scope.stripes.length <= 10;
+  }
+
   $scope.new = function() {
     var stripe = { color: { r: 156, g: 197, b: 201, hex: '#9CC5C9' }, size: 15 };
     $scope.stripes.push(stripe);
@@ -94,6 +99,10 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
     Stripes.addStripe(stripe.color.hex, stripe.size);
     Stripes.render();
   };
+
+  $scope.showRemove = function() {
+    return $scope.stripes.length > 2;
+  }
   
   $scope.remove = function(index) {
     $scope.stripes.splice(index, 1);

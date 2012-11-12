@@ -190,6 +190,9 @@ StripesFactoryv2App.factory('Stripes', function() {
       if (previewEl) {
         previewEl.css('background-image', 'url('+ cnv.toDataURL() +')');
       }
+      //return cnv.toDataURL();
+    },
+    getURL: function() {
       return cnv.toDataURL();
     }
   };
