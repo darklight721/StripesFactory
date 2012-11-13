@@ -9,10 +9,10 @@
 				<div class="ctrl-btn remove" ng-show="showRemove()">
 					<button title="Remove" ng-click="remove($index)"><icon>&#x23;</icon></button>
 				</div>
-				<div class="ctrl-group" title="Hex Color">
+				<div class="ctrl-group" title="Hex Color" ng-class="{error:stripe.error.hex}">
 					<input class="single" type="text" ng-model="stripe.color.hex" ng-change="updateHex($index)" maxlength="7">
 				</div>
-				<div class="ctrl-group" title="RGB Color">
+				<div class="ctrl-group" title="RGB Color" ng-class="{error:stripe.error.rgb}">
 					<div>
 						<button ng-click="updateRGB($index, {key: 'r', inc: -1})">-</button><input type="text" ng-model="stripe.color.r" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'r', inc: 1})">+</button>
 					</div>
@@ -23,7 +23,7 @@
 						<button ng-click="updateRGB($index, {key: 'b', inc: -1})">-</button><input type="text" ng-model="stripe.color.b" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'b', inc: 1})">+</button>
 					</div>
 				</div>
-				<div class="ctrl-group" title="Size">
+				<div class="ctrl-group" title="Size" ng-class="{error:stripe.error.size}">
 					<button ng-click="updateSize($index, {inc: -1})">-</button><input type="text" maxlength="3" ng-model="stripe.size" ng-change="updateSize($index)"><button ng-click="updateSize($index, {inc: 1})">+</button>
 				</div>
 			</div>

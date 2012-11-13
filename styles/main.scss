@@ -199,6 +199,10 @@ input, button {
 			@include bg-linear-gradient(rgba(#000, 0.3), rgba(#000, 0.3));
 		}
 	}
+
+	&.error {
+		background-color: red;
+	}
 }
 
 .control {

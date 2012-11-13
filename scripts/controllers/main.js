@@ -22,7 +22,7 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
 
   $scope.updateHex = function(index) {
     var hex = $scope.stripes[index].color.hex;
-    hex = hex.match(/^#[0-9,a-f]{6}/i) || hex.match(/^#[0-9,a-f]{3}/i);
+    hex = hex.match(/^#([0-9,a-f]{6}|[0-9,a-f]{3})$/i);
     
     if (hex) {
       // update rgb fields
@@ -31,13 +31,20 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
       Stripes.updateStripe(index, { color: hex[0] });
       Stripes.render();
     }
+
+    setError(index, 'hex', hex ? false : true);
   };
 
   $scope.updateRGB = function(index, options) {
-    var rgb = $scope.stripes[index].color;
+    var rgb = {
+          r: parseInt($scope.stripes[index].color.r),
+          g: parseInt($scope.stripes[index].color.g),
+          b: parseInt($scope.stripes[index].color.b)
+        },
+        isError = true;
     
     if (options && options.key && options.inc) {
-      rgb[options.key] = parseInt(rgb[options.key]) + options.inc;
+      rgb[options.key] = rgb[options.key] + options.inc;
     }
     
     if (rgb.r >= 0 && rgb.r <= 255 &&
@@ -50,11 +57,16 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
       // update stripes
       Stripes.updateStripe(index, { color: hex });
       Stripes.render();
+
+      isError = false;
     }
+
+    setError(index, 'rgb', isError);
   };
 
   $scope.updateSize = function(index, options) {
-    var size = parseInt($scope.stripes[index].size);
+    var size = parseInt($scope.stripes[index].size),
+        isError = true;
     
     if (options && options.inc) {
       $scope.stripes[index].size = size + options.inc;
@@ -65,7 +77,11 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
       // update stripes
       Stripes.updateStripe(index, { size: size });
       Stripes.render();
+
+      isError = false;
     }
+
+    setError(index, 'size', isError);
   };
 
   $scope.showSwap = function(isLeft, index) {
@@ -111,6 +127,31 @@ StripesFactoryv2App.controller('MainCtrl', ['$scope', 'Stripes', function($scope
     Stripes.removeStripe(index);
     Stripes.render();
   };
+
+  $scope.updateOrient = function(inc) {
+    var orient = parseInt($scope.orient),
+        isError = true;
+    
+    if (inc) {
+      $scope.orient = orient + inc;
+      orient = $scope.orient;
+    }
+    
+    if (orient >= 0 && orient < 180) {
+      // update stripes
+      Stripes.setOrient(orient);
+      Stripes.render();
+    
+      isError = false;
+    }
+  };
+
+  function setError(index, key, isError) {
+    if(!$scope.stripes[index].error) {
+      $scope.stripes[index].error = {};
+    }
+    $scope.stripes[index].error[key] = isError;
+  }
 
   function hexToRGB(hex) {
     var rgb = {};

@@ -13,9 +13,10 @@ StripesFactoryv2App.factory('Stripes', function() {
   }
 
   function computeStripeSize(size, rad) {
+    var width = Math.floor(size / Math.sin(rad));
     return {
-      width: Math.floor(size / Math.sin(rad)),
-      height: Math.floor(this.width / Math.tan(rad))
+      width: width,
+      height: Math.floor(width * Math.tan(rad))
     };
   }
 
@@ -40,7 +41,9 @@ StripesFactoryv2App.factory('Stripes', function() {
       size.height = 10;
     }
   	else {
-  		var rad = degToRad(this.orient);
+  		var rad = degToRad(
+        orient > 90 ? 180 - orient : orient
+      );
 
   		$.each(stripes, function(){
   			var stripeSize = computeStripeSize(this.size, rad);
@@ -117,7 +120,7 @@ StripesFactoryv2App.factory('Stripes', function() {
     var width = cnv.width * 2,
         height = cnv.height * 2,
         x = cnv.width,
-        rad = degToRad(orient);
+        rad = degToRad(180 - orient);
 
     while (width && height) {
       for (var i = 0; i < stripes.length; i++) {
@@ -157,12 +160,9 @@ StripesFactoryv2App.factory('Stripes', function() {
     	return orient;
     },
     setOrient: function(value) {
-    	value = value || 45.0;
     	orient = value;
     },
     addStripe: function(color, size) {
-    	size = size || 20;
-    	color = color || '#1F497D';
     	stripes.push({
     		size: size,
     		color: color
