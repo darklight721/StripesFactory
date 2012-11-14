@@ -2,14 +2,16 @@
 
 StripesFactoryv2App.factory('Stripes', function() {
   // Service logic
-  var cnv = $('canvas#cnv')[0] || $('<canvas id="cnv"></canvas>').appendTo('body')[0],
-  	  ctx = cnv.getContext('2d'),
-  	  orient = 0.0,
-  	  stripes = [],
-      previewEl = null;
+  var _cnv = $('canvas#cnv')[0] ||
+             $('<canvas id="cnv"></canvas>').appendTo('body')[0],
+      _ctx = _cnv.getContext('2d'),
+      _orient = 0.0,
+      _stripes = [],
+      _previewEl = null,
+      _hasParamError = false;
 
   function degToRad(deg) {
-  	return deg * Math.PI / 180;
+    return deg * Math.PI / 180;
   }
 
   function computeStripeSize(size, rad) {
@@ -21,95 +23,93 @@ StripesFactoryv2App.factory('Stripes', function() {
   }
 
   function computeCanvasSize() {
-  	var size = {
-  		width: 0,
-  		height: 0
-  	}
+    var size = {
+      width: 0,
+      height: 0
+    };
 
-  	if (orient === 0) {
-    $.each(stripes, function(){
+    if (_orient === 0) {
+      $.each(_stripes, function(){
         size.height += this.size;
       });
-
       size.width = 10;
     }
-    else if (orient === 90) {
-      $.each(stripes, function(){
+    else if (_orient === 90) {
+      $.each(_stripes, function(){
         size.width += this.size;
       });
-
       size.height = 10;
     }
-  	else {
-  		var rad = degToRad(
-        orient > 90 ? 180 - orient : orient
+    else {
+      var rad = degToRad(
+        _orient > 90 ? 180 - _orient : _orient
       );
 
-  		$.each(stripes, function(){
-  			var stripeSize = computeStripeSize(this.size, rad);
-  			size.width += stripeSize.width;
-  			size.height += stripeSize.height;
-  		});
-  	}
+      $.each(_stripes, function(){
+        var stripeSize = computeStripeSize(this.size, rad);
+        size.width += stripeSize.width;
+        size.height += stripeSize.height;
+      });
+    }
 
-  	return size;
+    return size;
   }
 
   function setCanvasSize(size) {
-    cnv.width = size.width;
-    cnv.height = size.height;
+    _cnv.width = size.width;
+    _cnv.height = size.height;
   }
 
   function drawStripes() {
-    if (orient === 0) {
+    if (_orient === 0) {
       drawStripesAsVertRect();
     }
-    else if (orient > 0 && orient < 90) {
+    else if (_orient > 0 && _orient < 90) {
       drawStripesAsLTriangle();
     }
-    else if (orient === 90) {
+    else if (_orient === 90) {
       drawStripesAsHorzRect();
     }
-    else if (orient > 90 && orient < 180) {
+    else if (_orient > 90 && _orient < 180) {
       drawStripesAsRTriangle();
     }
   }
 
   function drawStripesAsHorzRect() {
     var x = 0;
-    $.each(stripes, function(){
-      ctx.fillStyle = this.color;
-      ctx.fillRect(x, 0, this.size, cnv.height);
+    $.each(_stripes, function(){
+      _ctx.fillStyle = this.color;
+      _ctx.fillRect(x, 0, this.size, _cnv.height);
       x += this.size;
     });
   }
 
   function drawStripesAsVertRect() {
     var y = 0;
-    $.each(stripes, function(){
-      ctx.fillStyle = this.color;
-      ctx.fillRect(0, y, cnv.width, this.size);
+    $.each(_stripes, function(){
+      _ctx.fillStyle = this.color;
+      _ctx.fillRect(0, y, _cnv.width, this.size);
       y += this.size;
     });
   }
 
   function drawStripesAsLTriangle() {
-    var width = cnv.width * 2,
-        height = cnv.height * 2,
-        rad = degToRad(orient);
+    var width = _cnv.width * 2,
+        height = _cnv.height * 2,
+        rad = degToRad(_orient);
 
     while (width && height) {
-      for (var i = stripes.length-1; i >= 0; i--) {
+      for (var i = _stripes.length-1; i >= 0; i--) {
         drawPaths([
           {x: 0, y: 0},
           {x: width, y: 0},
           {x: 0, y: height}
         ]);
 
-        ctx.fillStyle = stripes[i].color;
-        ctx.fill();
+        _ctx.fillStyle = _stripes[i].color;
+        _ctx.fill();
 
-        var stripeSize = computeStripeSize(stripes[i].size, rad);
+        var stripeSize = computeStripeSize(_stripes[i].size, rad);
         width -= stripeSize.width;
         height -= stripeSize.height;
       }
@@ -117,23 +117,23 @@ StripesFactoryv2App.factory('Stripes', function() {
   }
 
   function drawStripesAsRTriangle() {
-    var width = cnv.width * 2,
-        height = cnv.height * 2,
-        x = cnv.width,
-        rad = degToRad(180 - orient);
+    var width = _cnv.width * 2,
+        height = _cnv.height * 2,
+        x = _cnv.width,
+        rad = degToRad(180 - _orient);
 
     while (width && height) {
-      for (var i = 0; i < stripes.length; i++) {
+      for (var i = 0; i < _stripes.length; i++) {
         drawPaths([
           {x: x, y: 0},
           {x: x - width, y: 0},
           {x: x, y: height}
         ]);
 
-        ctx.fillStyle = stripes[i].color;
-        ctx.fill();
+        _ctx.fillStyle = _stripes[i].color;
+        _ctx.fill();
 
-        var stripeSize = computeStripeSize(stripes[i].size, rad);
+        var stripeSize = computeStripeSize(_stripes[i].size, rad);
         width -= stripeSize.width;
         height -= stripeSize.height;
       }
@@ -143,57 +143,101 @@ StripesFactoryv2App.factory('Stripes', function() {
   function drawPaths(points) {
     var lastPt = points[points.length-1];
 
-    ctx.beginPath();
-    ctx.moveTo(lastPt.x, lastPt.y);
+    _ctx.beginPath();
+    _ctx.moveTo(lastPt.x, lastPt.y);
     $.each(points, function(){
-      ctx.lineTo(this.x, this.y);
+      _ctx.lineTo(this.x, this.y);
     });
-    ctx.closePath();
+    _ctx.closePath();
+  }
+  
+  function checkIntRange(num, min, max) {
+    num = parseInt(num);
+    return num >= min && num <= max;
+  }
+  
+  function checkHexColor(hex) {
+    return typeof hex === 'string' && 
+           hex.match(/^#([0-9,a-f]{6}|[0-9,a-f]{3})$/i);
   }
 
   // Public API here
   return {
     setPreviewEl: function(selector) {
-      previewEl = $(selector);
+      _previewEl = $(selector);
     },
-    getOrient: function() {
-    	return orient;
-    },
-    setOrient: function(value) {
-    	orient = value;
+    setOrient: function(orient) {
+      if (checkIntRange(orient, 0, 179)) {
+        _orient = parseInt(orient);
+        _hasParamError = false;
+      }
+      else {
+        _hasParamError = true;
+      }
+      return this;
     },
     addStripe: function(color, size) {
-    	stripes.push({
-    		size: size,
-    		color: color
-    	});
+      if (checkHexColor(color) && checkIntRange(size, 1, 100)) {
+        _stripes.push({
+          color: color,
+          size: parseInt(size)
+        });
+        _hasParamError = false;
+      }
+      else {
+        _hasParamError = true;
+      }
+      return this;
     },
     updateStripe: function(index, props) {
-    	if (stripes[index] && props) {
-        for (var prop in stripes[index]) {
-          if (prop in props) {
-            stripes[index][prop] = props[prop];
-          }
+      _hasParamError = true;
+      if (_stripes[index] && props) {
+        if (props.hasOwnProperty('color') && 
+            checkHexColor(props.color)) {
+          _stripes[index].color = props.color;
+          _hasParamError = false;
+        }
+        if (props.hasOwnProperty('size') && 
+            checkIntRange(props.size, 1, 100)) {
+          _stripes[index].size = parseInt(props.size);
+          _hasParamError = false;
         }
       }
+      return this;
     },
     removeStripe: function(index) {
-    	if (stripes[index]) {
-    		stripes.splice(index, 1);
-    	}
+      if (_stripes[index]) {
+        _stripes.splice(index, 1);
+        _hasParamError = false;
+      }
+      else {
+        _hasParamError = true;
+      }
+      return this;
+    },
+    clearStripes: function() {
+      _stripes.length = 0;
+      return this;
     },
     render: function() {
-      setCanvasSize(
-        computeCanvasSize()
-      );
-      drawStripes();
-      if (previewEl) {
-        previewEl.css('background-image', 'url('+ cnv.toDataURL() +')');
+      if (!_hasParamError) {
+        setCanvasSize(
+          computeCanvasSize()
+        );
+        drawStripes();
+        if (_previewEl) {
+          _previewEl.css(
+            'background-image', 'url(' + _cnv.toDataURL() + ')'
+          );
+        }
       }
-      //return cnv.toDataURL();
+      return this;
     },
     getURL: function() {
-      return cnv.toDataURL();
+      return _cnv.toDataURL();
+    },
+    hasParamError: function() {
+      return _hasParamError;
     }
   };
 });
