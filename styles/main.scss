@@ -77,13 +77,31 @@ $control-height: 240px;
 		left: 50%;
 		z-index: 1;
 
+		nav ul li {
+			display: inline-block;
+			margin-right: 10px;
+
+			font-size: 20px;
+			color: #555;
+			text-shadow:  //3px  3px 0   #ddd,
+						 -1px -1px 0 #ddd,
+						  1px -1px 0 #ddd,
+						 -1px  1px 0 #ddd,
+						  1px  1px 0 #ddd;
+		}
+
 		h1 {
 			margin: 0;
 
-			font-family: 'Arbutus Slab', serif;
-			font-size: 72px;
-			color: #fff;
-			text-shadow: -1px -1px 1px rgba(#000, 0.2);
+			//font-family: 'Arbutus Slab', serif;
+			font-family: 'Rochester', cursive;
+			font-size: 98px;
+			color: #555;
+			text-shadow:  3px  3px 0   #ddd,
+						 -2px -2px 1px #ddd,
+						  2px -2px 1px #ddd,
+						 -2px  2px 1px #ddd,
+						  2px  2px 1px #ddd;
 			-webkit-font-smoothing: antialiased;
 		}
 	}
