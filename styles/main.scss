@@ -24,6 +24,14 @@
 	     -o-transform: rotate($deg);
 }
 
+@mixin box-sizing($val) {
+	-webkit-box-sizing: $val;
+	   -moz-box-sizing: $val;
+	    -ms-box-sizing: $val;
+	     -o-box-sizing: $val;
+	        box-sizing: $val;
+}
+
 html, body {
 	width: 100%;
 	height: 100%;
@@ -97,7 +105,7 @@ $control-height: 240px;
 			font-family: 'Rochester', cursive;
 			font-size: 98px;
 			color: #555;
-			text-shadow:  3px  3px 0   #ddd,
+			text-shadow:  3px  3px 1px #ddd,
 						 -2px -2px 1px #ddd,
 						  2px -2px 1px #ddd,
 						 -2px  2px 1px #ddd,
@@ -157,7 +165,7 @@ $control-height: 240px;
 
 	.control {
 		position: relative;
-		padding: 15px 10px;
+		padding: 10px;
 		z-index: 1;
 		text-align: center;
 	}
@@ -169,7 +177,7 @@ $control-height: 240px;
 }
 
 input, button {
-	display: inline-block;
+	display: block;
 	margin: 0;
 	padding: 5px;
 	border: none;
@@ -178,43 +186,67 @@ input, button {
 
 	font-family: 'Arbutus Slab', serif;
 	text-align: center;
+
+	@include box-sizing(content-box);
+}
+
+button {
+	cursor: pointer;
+}
+
+.control {
+	position: relative;
 }
 
 .ctrl-group {
 	display: inline-block;
 	margin-bottom: 5px;
-	border: solid 5px rgba(#fff, 0.2);
 	border-radius: 3px;
+	border: solid 5px rgba(#fff, 0.2);
 	box-shadow: 0 0 5px 1px rgba(#000, 0.2);
 	background-color: transparent;
 
-	input[type=text] {
-		width: 50px;
+	$width: 14px;
+	$height: 16px;
+	$bg-color1: rgba(#fff, 0.6);
+	$bg-color2: rgba(#fff, 0.4);
+
+	input, button {
+		float: left;
+		height: $height;
+		font-size: $height - 2;
+		line-height: $height - 2;
+
+		@include bg-linear-gradient($bg-color1, $bg-color2);
+	}
+
+	input {
+		width: $width * 3;
 		color: rgba(#000, 0.7);
 		text-transform: uppercase;
-		@include bg-linear-gradient(rgba(#fff,0.6), rgba(#fff, 0.4));
 
 		&.single {
 			width: 90px;
 		}
 
 		&:focus {
-			@include bg-linear-gradient(rgba(#fff,0.6), rgba(#fff,0.6));
+			background-image: none;
+			background-color: $bg-color1;
 		}
 	}
 
 	button {
-		width: 20px;
-		color: rgba(#fff, 0.7);
-		cursor: pointer;
-		@include bg-linear-gradient(rgba(#000, 0.1), rgba(#000, 0.3));
+		width: $width;
+		color: rgba(#000, 0.3);
 
 		&:hover {
-			@include bg-linear-gradient(rgba(#000, 0.1), rgba(#000, 0.1));
+			background-image: none;
+			background-color: $bg-color1;
 		}
 
 		&:active {
-			@include bg-linear-gradient(rgba(#000, 0.3), rgba(#000, 0.3));
+			background-image: none;
+			background-color: $bg-color2;
 		}
 	}
 
@@ -223,33 +255,33 @@ input, button {
 	}
 }
 
-.control {
-	position: relative;
-}
-
 .ctrl-btn {
 	position: absolute;
-	top: 5px;
-	padding: 0;
+	top: 0;
+	padding: 5px;
 	margin: 0;
 
 	button {
 		display: inline-block;
+		width: 16px;
+		height: 16px;
+		font-size: 14px;
+		line-height: 14px;
 		padding: 0;
-		opacity: 0.5;
-		cursor: pointer;
 		color: #fff;
+		opacity: 0.5;
+		
 		&:hover {
 			opacity: 1;
 		}
 	}
 
 	&.swap {
-		left: 5px;
+		left: 0;
 	}
 
 	&.remove {
-		right: 5px;
+		right: 0;
 
 		button {
 			color: #c33;

@@ -14,17 +14,17 @@
 				</div>
 				<div class="ctrl-group" title="RGB Color" ng-class="{error:stripe.error.rgb}">
 					<div>
-						<button ng-click="updateRGB($index, {key: 'r', inc: -1})">-</button><input type="text" ng-model="stripe.color.r" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'r', inc: 1})">+</button>
+						<button ng-click="updateRGB($index, {key: 'r', inc: -1})"><icon>&#x25;</icon></button><input type="text" ng-model="stripe.color.r" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'r', inc: 1})"><icon>&#x21;</icon></button>
 					</div>
 					<div>
-						<button ng-click="updateRGB($index, {key: 'g', inc: -1})">-</button><input type="text" ng-model="stripe.color.g" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'g', inc: 1})">+</button>
+						<button ng-click="updateRGB($index, {key: 'g', inc: -1})"><icon>&#x25;</icon></button><input type="text" ng-model="stripe.color.g" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'g', inc: 1})"><icon>&#x21;</icon></button>
 					</div>
 					<div>
-						<button ng-click="updateRGB($index, {key: 'b', inc: -1})">-</button><input type="text" ng-model="stripe.color.b" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'b', inc: 1})">+</button>
+						<button ng-click="updateRGB($index, {key: 'b', inc: -1})"><icon>&#x25;</icon></button><input type="text" ng-model="stripe.color.b" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'b', inc: 1})"><icon>&#x21;</icon></button>
 					</div>
 				</div>
 				<div class="ctrl-group" title="Size" ng-class="{error:stripe.error.size}">
-					<button ng-click="updateSize($index, {inc: -1})">-</button><input type="text" maxlength="3" ng-model="stripe.size" ng-change="updateSize($index)"><button ng-click="updateSize($index, {inc: 1})">+</button>
+					<button ng-click="updateSize($index, {inc: -1})"><icon>&#x25;</icon></button><input type="text" maxlength="3" ng-model="stripe.size" ng-change="updateSize($index)"><button ng-click="updateSize($index, {inc: 1})"><icon>&#x21;</icon></button>
 				</div>
 			</div>
 		</li>
