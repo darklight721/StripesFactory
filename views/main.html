@@ -1,35 +1,42 @@
 <section>
-	<ul>
-		<li class="strip" ng-repeat="stripe in stripes" background-color="stripe.color.hex">
-			<div class="control">
-				<div class="ctrl-btn swap">
-					<button title="Swap Left" ng-show="showSwap(true,$index)" ng-click="swap($index,$index-1)"><icon>&#x24;</icon></button>
-					<button title="Swap Right" ng-show="showSwap(false,$index)" ng-click="swap($index,$index+1)"><icon>&#x22;</icon></button>
-				</div>
-				<div class="ctrl-btn remove" ng-show="showRemove()">
-					<button title="Remove" ng-click="remove($index)"><icon>&#x23;</icon></button>
-				</div>
-				<div class="ctrl-group" title="Hex Color" ng-class="{error:stripe.error.hex}">
-					<input class="single" type="text" ng-model="stripe.color.hex" ng-change="updateHex($index)" maxlength="7">
-				</div>
-				<div class="ctrl-group" title="RGB Color" ng-class="{error:stripe.error.rgb}">
-					<div>
-						<button ng-click="updateRGB($index, {key: 'r', inc: -1})"><icon>&#x25;</icon></button><input type="text" ng-model="stripe.color.r" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'r', inc: 1})"><icon>&#x21;</icon></button>
+	<div class="main-ctrl" resizeable="stripes.length" scrollable>
+		<ul>
+			<li class="strip" ng-repeat="stripe in stripes" background-color="stripe.color.hex">
+				<div class="control">
+					<div class="ctrl-btn swap">
+						<button title="Swap Left" ng-show="showSwap(true,$index)" ng-click="swap($index,$index-1)"><icon>&#xe001;</icon></button>
+						<button title="Swap Right" ng-show="showSwap(false,$index)" ng-click="swap($index,$index+1)"><icon>&#xe000;</icon></button>
 					</div>
-					<div>
-						<button ng-click="updateRGB($index, {key: 'g', inc: -1})"><icon>&#x25;</icon></button><input type="text" ng-model="stripe.color.g" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'g', inc: 1})"><icon>&#x21;</icon></button>
+					<div class="ctrl-btn remove" ng-show="showRemove()">
+						<button title="Remove" ng-click="remove($index)"><icon>&#xe002;</icon></button>
 					</div>
-					<div>
-						<button ng-click="updateRGB($index, {key: 'b', inc: -1})"><icon>&#x25;</icon></button><input type="text" ng-model="stripe.color.b" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'b', inc: 1})"><icon>&#x21;</icon></button>
+					<div class="ctrl-group" title="Hex Color" ng-class="{error:stripe.error.hex}">
+						<input class="single" type="text" ng-model="stripe.color.hex" ng-change="updateHex($index)" maxlength="7">
+					</div>
+					<div class="ctrl-group" title="RGB Color" ng-class="{error:stripe.error.rgb}">
+						<div>
+							<button ng-click="updateRGB($index, {key: 'r', inc: -1})"><icon>&#xe004;</icon></button><input type="text" ng-model="stripe.color.r" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'r', inc: 1})"><icon>&#xe003;</icon></button>
+						</div>
+						<div>
+							<button ng-click="updateRGB($index, {key: 'g', inc: -1})"><icon>&#xe004;</icon></button><input type="text" ng-model="stripe.color.g" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'g', inc: 1})"><icon>&#xe003;</icon></button>
+						</div>
+						<div>
+							<button ng-click="updateRGB($index, {key: 'b', inc: -1})"><icon>&#xe004;</icon></button><input type="text" ng-model="stripe.color.b" maxlength="3" ng-change="updateRGB($index)"><button ng-click="updateRGB($index, {key: 'b', inc: 1})"><icon>&#xe003;</icon></button>
+						</div>
+					</div>
+					<div class="ctrl-group" title="Size" ng-class="{error:stripe.error.size}">
+						<button ng-click="updateSize($index, {inc: -1})"><icon>&#xe004;</icon></button><input type="text" maxlength="3" ng-model="stripe.size" ng-change="updateSize($index)"><button ng-click="updateSize($index, {inc: 1})"><icon>&#xe003;</icon></button>
 					</div>
 				</div>
-				<div class="ctrl-group" title="Size" ng-class="{error:stripe.error.size}">
-					<button ng-click="updateSize($index, {inc: -1})"><icon>&#x25;</icon></button><input type="text" maxlength="3" ng-model="stripe.size" ng-change="updateSize($index)"><button ng-click="updateSize($index, {inc: 1})"><icon>&#x21;</icon></button>
-				</div>
-			</div>
-		</li>
-		<li class="strip-new" ng-show="showNew()">
-			<button class="btn-new" ng-click="new()"><icon>&#x26;</icon></button>
-		</li>
-	</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="side-ctrl">
+		<button class="btn-new" ng-click="new()"><icon>&#xe005;</icon></button>
+		<div class="ctrl-group" title="Orientation">
+			<div><button class="single" ng-click="updateOrient(-1)"><icon>&#xe004;</icon></button></div>
+			<div><input type="text" maxlength="3" ng-model="orient" ng-change="updateOrient()"></div>
+			<div><button class="single" ng-click="updateOrient(1)"><icon>&#xe003;</icon></button></div>
+		</div>
+	</div>
 </section>
